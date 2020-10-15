@@ -186,6 +186,14 @@ def test_env_should_be_string(settings):
             pass
 
 
+def test_non_silent_setenv(tmpdir):
+    data = {"default": {}}
+    toml_loader.write(str(tmpdir.join("settings.toml")), data, merge=False)
+    settings = LazySettings(environments=True, settings_file="settings.toml")
+    with pytest.raises(KeyError):
+        settings.setenv('nosuchenv', silent=False)
+
+
 def test_env_should_not_have_underline(settings):
     with pytest.raises(AttributeError):
         with settings.setenv("COOL_env"):

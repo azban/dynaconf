@@ -115,12 +115,10 @@ class BaseLoader:
 
             for env in build_env_list(self.obj, self.env):
                 env = env.lower()  # lower for better comparison
-                data = {}
-
                 try:
                     data = file_data[env] or {}
                 except KeyError:
-                    if silent:
+                    if env.upper() != self.env or silent:
                         continue
                     raise
 

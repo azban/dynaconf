@@ -945,14 +945,15 @@ class Settings:
         """Execute all internal and registered loaders
 
         :param env: The environment to load
-        :param silent: If loading erros is silenced
-        :param key: if provided load a single key
+        :param silent: If loading errors are silenced
+        :param key: if provided, load a single key
         :param filename: optional custom filename to load
         """
         if key is None:
             default_loader(self, self._defaults)
         env = (env or self.current_env).upper()
-        silent = silent or self.SILENT_ERRORS_FOR_DYNACONF
+        if silent is None:
+            silent = self.SILENT_ERRORS_FOR_DYNACONF
         self.pre_load(env, silent=silent, key=key)
         settings_loader(
             self, env=env, silent=silent, key=key, filename=filename
